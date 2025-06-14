@@ -7,7 +7,7 @@ from langchain_community.document_loaders import PyPDFLoader
 from langchain_community.document_loaders import Docx2txtLoader
 from langchain_community.document_loaders import TextLoader
 
-base_dir = '02文档QA系统/OneFlower'
+base_dir = '/Volumes/D/pyWorkSpace/langchain_demo/02文档QA系统/OneFlower'
 documents = []
 for file in os.listdir(base_dir): 
     # 构建完整的文件路径
@@ -60,7 +60,9 @@ llm = ChatOllama(
     max_tokens=2000               # 最大生成长度
 )
 
-# 实例化一个MultiQueryRetriever
+# 实例化一个MultiQueryRetriever(多查询检索器)
+# - 将用户问题转换为多个相似问题
+# - 提高检索的覆盖范围
 retriever_from_llm = MultiQueryRetriever.from_llm(retriever=vectorstore.as_retriever(), llm=llm)
 
 # 实例化一个RetrievalQA链
