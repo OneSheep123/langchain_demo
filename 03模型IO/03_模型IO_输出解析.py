@@ -51,7 +51,6 @@ df = pd.DataFrame(columns=["flower", "price", "description", "reason"])  # 先�
 for flower, price in zip(flowers, prices):
     # 根据提示准备模型的输入
     input = prompt.format(flower_name=flower, price=price)
-
     # 获取模型的输出
     output = model.invoke(input)
 
