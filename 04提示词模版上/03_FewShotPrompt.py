@@ -25,7 +25,7 @@ samples = [
 
 # 2. 创建一个提示模板
 from langchain.prompts.prompt import PromptTemplate
-prompt_sample = PromptTemplate(input_variables=["flower_type", "occasion", "ad_copy"], 
+prompt_sample = PromptTemplate(input_variables=["flower_type", "occasion", "ad_copy"],
                                template="鲜花类型: {flower_type}\n场合: {occasion}\n文案: {ad_copy}")
 print(prompt_sample.format(**samples[0]))
 
@@ -60,14 +60,17 @@ from langchain_community.embeddings import OllamaEmbeddings
 
 # 初始化示例选择器
 example_selector = SemanticSimilarityExampleSelector.from_examples(
-    samples,
-    OllamaEmbeddings(
+    examples=samples,
+    embeddings=OllamaEmbeddings(
         model="bge-m3",
         base_url="http://localhost:11434"
     ),
     # 需要先启动 Qdrant 服务（默认6333端口）
-    Qdrant,
-    k=1
+    vectorstore_cls=Qdrant,
+    k=1,
+    host="localhost",
+    port=6333,
+    collection_name="flowers"
 )
 
 # 创建一个使用示例选择器的FewShotPromptTemplate对象
